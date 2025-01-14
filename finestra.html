@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Finestra Animata</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background-color: #87CEEB;
+            transition: transform 3s ease-in-out;
+        }
+
+        #windowFrame {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            width: 500px;
+            height: 500px;
+            transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg);
+            perspective: 1500px;
+            z-index: 5;
+            border: 20px solid white;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.5);
+            transition: transform 3s ease-in-out;
+        }
+
+        .windowPane {
+            position: absolute;
+            width: 50%;
+            height: 100%;
+            background: center center;
+            background-size:cover;
+            transition: transform 2s ease-in-out;
+        }
+
+        .leftPane {
+            left: 0;
+            background-image: url('./finestra1.jpg');
+            transform-origin: left;
+        }
+
+        .rightPane {
+            right: 0;
+           background-image: url('./finestra2.jpg');
+            transform-origin: right;
+        }
+
+        #windowFrame.open .leftPane {
+            transform: rotateY(-100deg);
+        }
+
+        #windowFrame.open .rightPane {
+            transform: rotateY(100deg);
+        }
+
+        #backgroundScene {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to top, #228B22, #87CEEB);
+            background-size: cover;
+            z-index: 1;
+            opacity: 0;
+            transition: opacity 2s ease-in-out 3s;
+        }
+
+        #backgroundScene.visible {
+            opacity: 1;
+        }
+
+        #openBtn {
+            position: absolute;
+            top: 60%;
+            left: 50%;
+            transform: translate(-50%,-1%);
+            padding: 25px 50px;
+            font-size: 23px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(45deg, #ff0000, #00ff00, #0000ff);
+            background-size: 600% 600%;
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            z-index: 10;
+            animation: rgbAnimation 5s ease infinite;
+            transition: transform 0.7s, box-shadow 0.3s;
+        }
+
+        #openBtn:hover {
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5);
+        }
+
+        @keyframes rgbAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        #openBtn.hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="windowFrame">
+        <div class="windowPane leftPane"></div>
+        <div class="windowPane rightPane"></div>
+    </div>
+    <button id="openBtn">Apri la Finestra</button>
+    <div id="backgroundScene"></div>
+
+    <script>
+        const openBtn = document.getElementById('openBtn');
+        const windowFrame = document.getElementById('windowFrame');
+        const backgroundScene = document.getElementById('backgroundScene');
+
+        openBtn.addEventListener('click', () => {
+            windowFrame.classList.add('open');
+            openBtn.style.display = 'none';
+            setTimeout(() => {
+                windowFrame.style.transform = 'scale(50) translate(0%, 0%) rotateX(-10deg) rotateY(10deg)';
+            }, 1500);
+            setTimeout(() => {
+                backgroundScene.classList.add('visible');
+            }, 1000);
+        });
+    </script>
+
+</body>
+</html>
